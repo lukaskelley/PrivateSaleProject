@@ -326,7 +326,7 @@ function LaunchDashboard() {
             </MDTypography>
 
             <MDTypography variant="h7" color="white" textAlign="center" style={{ width: "100%" }}>
-              <Link to={`/${modalpresaleArray.contractAddress}/${chainId}`}>
+              <Link to={`privateSale/${modalpresaleArray.contractAddress}/${chainId}`}>
                 https://privatesaledemo.netlify.app/privatesale/{chainId}
                 {modalpresaleArray.contractAddress}
               </Link>
