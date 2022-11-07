@@ -5,7 +5,6 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
-import { Link } from "react-router-dom";
 
 // eslint-disable-next-line no-unused-vars
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
@@ -326,10 +325,12 @@ function LaunchDashboard() {
             </MDTypography>
 
             <MDTypography variant="h7" color="white" textAlign="center" style={{ width: "100%" }}>
-              <Link to={`privateSale/${modalpresaleArray.contractAddress}/${chainId}`}>
+              <a
+                href={`https://privatesaledemo.netlify.app/privatesale/${modalpresaleArray.contractAddress}/${chainId}`}
+              >
                 https://privatesaledemo.netlify.app/privatesale/{chainId}
                 {modalpresaleArray.contractAddress}
-              </Link>
+              </a>
             </MDTypography>
           </Grid>
           <Grid item xs={12} xl={6} md={6} mt={1} style={{ justifyContent: "center" }}>
