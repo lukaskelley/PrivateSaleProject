@@ -32,7 +32,7 @@ const ethers = require("ethers");
 
 const { TextArea } = Input;
 function LaunchDashboard() {
-  const { account } = useWeb3React();
+  const { account, chainId } = useWeb3React();
 
   const [presaleArray, setPresaleArray] = useState([]);
   const [modalpresaleArray, setModalPresaleArray] = useState([]);
@@ -326,8 +326,11 @@ function LaunchDashboard() {
             </MDTypography>
 
             <MDTypography variant="h7" color="white" textAlign="center" style={{ width: "100%" }}>
-              <Link to={`/presale/${modalpresaleArray.contractAddress}`}>
-                https://localhost:3000/presale/ {modalpresaleArray.contractAddress}
+              <Link
+                to={`https://privatesale-work.netlify.app/privatesale/${modalpresaleArray.contractAddress}/${chainId}`}
+              >
+                https://privatesale-work.netlify.app/privatesale/{" "}
+                {modalpresaleArray.contractAddress}
               </Link>
             </MDTypography>
           </Grid>
