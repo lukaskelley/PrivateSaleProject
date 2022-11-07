@@ -26,7 +26,7 @@ import {
   EllipsisOutlined,
   DribbbleCircleFilled,
 } from "@ant-design/icons";
-import { Progress, Switch, Spin, message } from "antd";
+import { Progress, Switch, Spin, message, Skeleton } from "antd";
 // eslint-disable-next-line no-unused-vars
 import { useWeb3React } from "@web3-react/core";
 import STANDARDPRESALEABI from "../../assets/abi/STANDARDPRESALEABI.json";
@@ -46,6 +46,8 @@ function PreSaleView() {
   });
 
   const [loading, setLoading] = useState(false);
+
+  const [getDataLoading, setGetDataLoading] = useState(true);
 
   const [presaleArray, setPresaleArray] = useState([]);
 
@@ -105,6 +107,7 @@ function PreSaleView() {
       otherUrl: other_url.toString(),
     });
     setPresaleArray(array[0]);
+    setGetDataLoading(false);
   };
 
   const setNewTime = () => {
@@ -186,17 +189,21 @@ function PreSaleView() {
             coloredShadow="info"
           >
             <MDTypography variant="h6" color="white" textAlign="center">
-              Presale
+              PrivateSale
             </MDTypography>
           </MDBox>
           <Grid container spacing={1} py={5} px={3}>
-            <Grid item xs={12} xl={4} md={4} mt={3} style={{ justifyContent: "center" }}>
+            <Grid item xs={12} xl={4} md={4} mt={3}>
               <MDBox style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                <img
-                  alt="example"
-                  src={presaleArray.logoUrl === "" ? noIMG : presaleArray.logoUrl}
-                  style={{ width: "50%", borderRadius: "50%" }}
-                />
+                {getDataLoading ? (
+                  <Skeleton.Avatar active="true" style={{ width: "200px", height: "200px" }} />
+                ) : (
+                  <img
+                    alt="example"
+                    src={presaleArray.logoUrl === "" ? noIMG : presaleArray.logoUrl}
+                    style={{ width: "50%", borderRadius: "50%" }}
+                  />
+                )}
               </MDBox>
             </Grid>
             <Grid item xs={12} xl={8} md={8} mt={3}>
@@ -211,7 +218,6 @@ function PreSaleView() {
                   <MDButton color="success" mt={3}>
                     Verified
                   </MDButton>{" "}
-                  - the token was minted
                 </MDTypography>
                 <MDBox style={{ width: "100%", display: "flex" }} borderRadius="10px" pt={1}>
                   <a
@@ -261,9 +267,6 @@ function PreSaleView() {
           <Grid container spacing={1} py={5} px={3}>
             <Grid item xs={12} xl={8} md={8} mt={3} style={{ justifyContent: "center" }}>
               <MDBox style={{ width: "100%" }} coloredShadow="light" borderRadius="10px" p={3}>
-                <MDTypography variant="h4" color="dark" textAlign="left">
-                  HARDIK (HDK)
-                </MDTypography>
                 <MDBox style={{ width: "100%", display: "flex", justifyContent: "start" }} pt={3}>
                   <MDTypography
                     variant="h6"
@@ -335,24 +338,30 @@ function PreSaleView() {
                   </MDTypography>
                 </MDBox>
                 <MDTypography variant="h6" color="success" textAlign="left" py={3}>
-                  You can send BNB to the presale address (if transaction fails increase gas limit
-                  to 200K-1M) or use a button below Make sure that you use Binance Smart Chain (BSC)
-                  Testnet <br />
+                  You can send BNB to the PrivateSale address (if transaction fails increase gas
+                  limit to 200K-1M) or use a button below Make sure that you use Binance Smart Chain
+                  (BSC) Testnet <br />
                   Make sure that you use Binance Smart Chain (BSC) Testnet
                 </MDTypography>
+                {getDataLoading ? (
+                  <Skeleton.Input active="true" block="true" />
+                ) : (
+                  <>
+                    <Progress
+                      percent={parseFloat(
+                        ((presaleArray.totalAmount - presaleArray.remainAmount) /
+                          presaleArray.totalAmount) *
+                          100
+                      ).toFixed(2)}
+                      status="active"
+                    />
+                    <MDTypography variant="h6" color="dark" textAlign="center">
+                      {presaleArray.totalAmount - presaleArray.remainAmount}/
+                      {presaleArray.totalAmount} Token(s)
+                    </MDTypography>
+                  </>
+                )}
 
-                <Progress
-                  percent={parseFloat(
-                    ((presaleArray.totalAmount - presaleArray.remainAmount) /
-                      presaleArray.totalAmount) *
-                      100
-                  ).toFixed(2)}
-                  status="active"
-                />
-                <MDTypography variant="h6" color="dark" textAlign="center">
-                  {presaleArray.totalAmount - presaleArray.remainAmount}/{presaleArray.totalAmount}{" "}
-                  Token(s)
-                </MDTypography>
                 <Grid container spacing={1} py={1} px={1}>
                   <Grid item xs={12} xl={6} md={6} mt={3} style={{ justifyContent: "center" }}>
                     <MDBox
@@ -362,22 +371,31 @@ function PreSaleView() {
                       p={3}
                       bgColor="white"
                     >
-                      <MDTypography
-                        variant="h6"
-                        color="dark"
-                        textAlign="left"
-                        style={{ width: "100%", display: "flex" }}
-                      >
-                        Start : {presaleArray.startTime}
-                      </MDTypography>
-                      <MDTypography
-                        variant="h6"
-                        color="dark"
-                        textAlign="left"
-                        style={{ width: "100%", display: "flex" }}
-                      >
-                        Min : {presaleArray.minContriAmount} BNB
-                      </MDTypography>
+                      {getDataLoading ? (
+                        <>
+                          <Skeleton.Input active="true" block="true" />
+                          <Skeleton.Input active="true" />
+                        </>
+                      ) : (
+                        <>
+                          <MDTypography
+                            variant="h6"
+                            color="dark"
+                            textAlign="left"
+                            style={{ width: "100%", display: "flex" }}
+                          >
+                            Start : {presaleArray.startTime}
+                          </MDTypography>
+                          <MDTypography
+                            variant="h6"
+                            color="dark"
+                            textAlign="left"
+                            style={{ width: "100%", display: "flex" }}
+                          >
+                            Min : {presaleArray.minContriAmount} BNB
+                          </MDTypography>
+                        </>
+                      )}
                     </MDBox>
                   </Grid>
                   <Grid item xs={12} xl={6} md={6} mt={3} style={{ justifyContent: "center" }}>
@@ -388,22 +406,31 @@ function PreSaleView() {
                       p={3}
                       bgColor="white"
                     >
-                      <MDTypography
-                        variant="h6"
-                        color="dark"
-                        textAlign="left"
-                        style={{ width: "100%", display: "flex" }}
-                      >
-                        End : {presaleArray.endTime}
-                      </MDTypography>
-                      <MDTypography
-                        variant="h6"
-                        color="dark"
-                        textAlign="left"
-                        style={{ width: "100%", display: "flex" }}
-                      >
-                        Max : {presaleArray.maxContriAmount} BNB
-                      </MDTypography>
+                      {getDataLoading ? (
+                        <>
+                          <Skeleton.Input active="true" block="true" />
+                          <Skeleton.Input active="true" />
+                        </>
+                      ) : (
+                        <>
+                          <MDTypography
+                            variant="h6"
+                            color="dark"
+                            textAlign="left"
+                            style={{ width: "100%", display: "flex" }}
+                          >
+                            End : {presaleArray.endTime}
+                          </MDTypography>
+                          <MDTypography
+                            variant="h6"
+                            color="dark"
+                            textAlign="left"
+                            style={{ width: "100%", display: "flex" }}
+                          >
+                            Max : {presaleArray.maxContriAmount} BNB
+                          </MDTypography>
+                        </>
+                      )}
                     </MDBox>
                   </Grid>
                 </Grid>
@@ -450,15 +477,20 @@ function PreSaleView() {
                 <MDTypography variant="h4" color="light" textAlign="center">
                   My Tokens
                 </MDTypography>
-                <MDTypography variant="h6" color="light" textAlign="left">
-                  Invested:{" "}
-                  {parseFloat(presaleArray.totalAmount - presaleArray.remainAmount).toFixed(2)}{" "}
-                  Token(s) ={" "}
-                  {parseFloat(
-                    (presaleArray.totalAmount - presaleArray.remainAmount) / presaleArray.tokenPrice
-                  ).toFixed(2)}
-                  BNB
-                </MDTypography>
+                {getDataLoading ? (
+                  <Skeleton.Input active="true" block="true" />
+                ) : (
+                  <MDTypography variant="h6" color="light" textAlign="left">
+                    Invested:{" "}
+                    {parseFloat(presaleArray.totalAmount - presaleArray.remainAmount).toFixed(2)}{" "}
+                    Token(s) ={" "}
+                    {parseFloat(
+                      (presaleArray.totalAmount - presaleArray.remainAmount) /
+                        presaleArray.tokenPrice
+                    ).toFixed(2)}
+                    BNB
+                  </MDTypography>
+                )}
               </MDBox>
             </Grid>
           </Grid>

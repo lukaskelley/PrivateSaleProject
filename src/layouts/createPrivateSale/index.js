@@ -25,7 +25,7 @@ import STANDARDPRESALEFACTORYABI from "../../assets/abi/STANDARDPRESALEFACTORYAB
 
 const ethers = require("ethers");
 
-function CreatePresale() {
+function CreatePrivateSale() {
   const Provider = new ethers.providers.Web3Provider(window.ethereum);
   const Signer = Provider.getSigner();
 
@@ -171,25 +171,28 @@ function CreatePresale() {
   const confirmFunc = async () => {
     setLoading(true);
     const isNative = true;
-    // eslint-disable-next-line
-    await StandardPresaleFactoryContract.create(
-      ethers.BigNumber.from(tokenPrice * 1000000),
-      ethers.BigNumber.from(totalAmount * 1000000),
-      ethers.BigNumber.from(startDate),
-      endDate === 0 ? ethers.BigNumber.from(0) : ethers.BigNumber.from(endDate - startDate),
-      ethers.utils.parseEther(minContributionAmount.toString()),
-      maxContributionAmount === 0
-        ? "115792089237316195423570985008687907853269984665640564039457584007913129639935"
-        : ethers.utils.parseEther(maxContributionAmount.toString()),
-      isNative,
-      {
-        value: ethers.utils.parseEther("0.01"),
-      }
-    ).then(() => {
+    try {
+      await StandardPresaleFactoryContract.create(
+        ethers.BigNumber.from(tokenPrice * 1000000),
+        ethers.BigNumber.from(totalAmount * 1000000),
+        ethers.BigNumber.from(startDate),
+        endDate === 0 ? ethers.BigNumber.from(0) : ethers.BigNumber.from(endDate - startDate),
+        ethers.utils.parseEther(minContributionAmount.toString()),
+        maxContributionAmount === 0
+          ? "115792089237316195423570985008687907853269984665640564039457584007913129639935"
+          : ethers.utils.parseEther(maxContributionAmount.toString()),
+        isNative,
+        {
+          value: ethers.utils.parseEther("0.01"),
+        }
+      );
       setLoading(false);
       setIsModalOpen(false);
       message.success("Created Successful");
-    });
+    } catch {
+      message.error("Create Error");
+    }
+    // eslint-disable-next-line
   };
 
   return (
@@ -449,4 +452,4 @@ function CreatePresale() {
   );
 }
 
-export default CreatePresale;
+export default CreatePrivateSale;

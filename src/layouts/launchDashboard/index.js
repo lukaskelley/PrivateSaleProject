@@ -183,7 +183,8 @@ function LaunchDashboard() {
                               textAlign="center"
                               style={{ width: "100%" }}
                             >
-                              Presale Address : {presale && presale.contractAddress.slice(0, 10)}...{" "}
+                              PrivateSale Address :{" "}
+                              {presale && presale.contractAddress.slice(0, 10)}...{" "}
                               {presale && presale.contractAddress.slice(-5)}
                             </MDTypography>
                             <MDTypography
@@ -239,7 +240,7 @@ function LaunchDashboard() {
         className="launchdasboardModal"
       >
         <MDTypography variant="h4" color="dark" textAlign="left" style={{ width: "80%" }} pb={1}>
-          Presale
+          PrivateSale
         </MDTypography>
         <MDTypography
           variant="h7"
@@ -248,7 +249,7 @@ function LaunchDashboard() {
           textAlign="left"
           style={{ width: "100%", display: "flex" }}
         >
-          Presale Address :
+          PrivateSale Address :
         </MDTypography>
         <MDTypography variant="h7" color="dark" textAlign="left" fontWeight="regular">
           {modalpresaleArray && modalpresaleArray.contractAddress}
@@ -256,7 +257,7 @@ function LaunchDashboard() {
         <Grid container spacing={1} mt={3}>
           <Grid item xs={12} xl={6} md={6} mt={1} style={{ justifyContent: "center" }}>
             <MDTypography variant="h4" color="dark" textAlign="left" fontWeight="bold">
-              PreSale Parameters
+              PrivateSale Parameters
             </MDTypography>
             <MDTypography
               variant="h7"

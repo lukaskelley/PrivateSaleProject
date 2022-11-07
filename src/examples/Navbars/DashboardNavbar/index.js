@@ -78,12 +78,14 @@ function DashboardNavbar({ absolute, light, isMini }) {
 
   async function connect() {
     if (chainId !== 19 || chainId === undefined) {
-      console.log(chainId);
+      // eslint-disable-next-line no-console
+      console.log("chainId", chainId);
     }
     try {
       await activate(injected);
       localStorage.setItem("isWalletConnected", true);
     } catch (ex) {
+      // eslint-disable-next-line no-console
       console.log(ex);
     }
   }
@@ -94,6 +96,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
       localStorage.setItem("isWalletConnected", false);
       window.location.reload();
     } catch (ex) {
+      // eslint-disable-next-line no-console
       console.log(ex);
     }
   }
@@ -105,6 +108,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
           await activate(injected);
           localStorage.setItem("isWalletConnected", true);
         } catch (ex) {
+          // eslint-disable-next-line no-console
           console.log(ex);
         }
       }

@@ -97,7 +97,7 @@ export default function App() {
       <Routes>
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/LaunchDashboard" />} />
-        <Route path="/presale/:contractAddress" element={<Presale />} />
+        <Route path="/privateSale/:contractAddress/:chainid" element={<Presale />} />
       </Routes>
     </ThemeProvider>
   );

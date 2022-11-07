@@ -26,7 +26,7 @@ import CountDown from "./CountDown";
 const ethers = require("ethers");
 
 function InvestDashboard() {
-  const { account } = useWeb3React();
+  const { account, chainId } = useWeb3React();
   const [presaleArray, setPresaleArray] = useState([]);
   const [loading, setLoading] = useState(false);
   const [dataState, setDataState] = useState(false);
@@ -65,7 +65,6 @@ function InvestDashboard() {
           const period = await standardFactoryContract._period();
           // eslint-disable-next-line no-await-in-loop, camelcase, no-underscore-dangle
           const logo_url = await standardFactoryContract._logoUrl();
-          console.log(Number(start_Time), Number(period));
 
           array.push({
             contractAddress: data[i].presaleAddress.toString(),
@@ -82,7 +81,6 @@ function InvestDashboard() {
         }
       }
     });
-    console.log(array[0].startTimeStamp, array[0].endTimeStamp);
     setPresaleArray(array);
     setLoading(false);
   };
@@ -213,7 +211,7 @@ function InvestDashboard() {
                               startTime={presale.startTimeStamp}
                               EndTime={presale.endTimeStamp}
                             />
-                            <Link to={`/presale/${presale.contractAddress}`}>
+                            <Link to={`/privateSale/${presale.contractAddress}/${chainId}`}>
                               <MDButton color="error" mt={3} style={{ width: "100%" }}>
                                 {" "}
                                 <MDTypography variant="h7" color="light">
